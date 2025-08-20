@@ -210,6 +210,7 @@ export function logSecurityEvent(event: {
   };
   
   // In production, this would send to a security monitoring service
+  // eslint-disable-next-line no-console
   console.log('[SECURITY]', JSON.stringify(logEntry));
 }
 

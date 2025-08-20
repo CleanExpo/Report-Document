@@ -1,22 +1,22 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
+import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 
 // Test the simple flags configuration
 describe('Feature Flags - Simple Configuration', () => {
-  it('should have default flags defined', () => {
-    const flags = require('./flags.simple').flags;
+  it('should have default flags defined', async () => {
+    const { flags } = await import('./flags.simple');
     
     expect(flags).toBeDefined();
     expect(typeof flags).toBe('object');
   });
 
-  it('should have aiOrchestrator flag defaulted to false', () => {
-    const flags = require('./flags.simple').flags;
+  it('should have aiOrchestrator flag defaulted to false', async () => {
+    const { flags } = await import('./flags.simple');
     
     expect(flags.aiOrchestrator).toBe(false);
   });
 
-  it('should have exampleFeature flag defaulted to false', () => {
-    const flags = require('./flags.simple').flags;
+  it('should have exampleFeature flag defaulted to false', async () => {
+    const { flags } = await import('./flags.simple');
     
     expect(flags.exampleFeature).toBe(false);
   });
@@ -24,21 +24,27 @@ describe('Feature Flags - Simple Configuration', () => {
 
 // Test the advanced feature flag manager
 describe('Feature Flags - Advanced Manager', () => {
-  let FeatureFlagManager: any;
-  let manager: any;
+  let manager: {
+    getAllFlags: () => Array<{name: string, enabled: boolean}>;
+    isEnabled: (flag: string, userId?: string) => boolean;
+    enable: (flag: string) => void;
+    disable: (flag: string) => void;
+    register: (flag: {name: string, description: string, enabled: boolean, rolloutPercentage?: number}) => void;
+    withFlag: <T>(flag: string, enabled: () => T, disabled: () => T) => T;
+    setRolloutPercentage: (flag: string, percentage: number) => void;
+  };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     // Clear module cache to get fresh instance
     jest.resetModules();
-    const module = require('./flags');
-    FeatureFlagManager = module.FeatureFlagManager;
     
     // Mock environment variables
     process.env.NEXT_PUBLIC_FEATURE_AI_ORCHESTRATOR = 'false';
     process.env.NEXT_PUBLIC_FEATURE_NEW_UI = 'false';
     
-    // Create new instance
-    manager = new FeatureFlagManager();
+    // Dynamically import to get fresh instance after env vars are set
+    const { featureFlags } = await import('./flags');
+    manager = featureFlags as typeof manager;
   });
 
   it('should initialize with default flags', () => {

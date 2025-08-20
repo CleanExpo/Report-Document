@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runHealthCheck } from '@/utils/health/scoring';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     // Run the health check
     const healthScore = await runHealthCheck();
@@ -27,15 +27,32 @@ export async function GET(request: NextRequest) {
 }
 
 function getHealthStatus(score: number) {
-  if (score >= 90) return { emoji: '🟢', label: 'Excellent', color: 'green' };
-  if (score >= 70) return { emoji: '🟡', label: 'Good', color: 'yellow' };
-  if (score >= 50) return { emoji: '🟠', label: 'Fair', color: 'orange' };
+  if (score >= 90) {
+    return { emoji: '🟢', label: 'Excellent', color: 'green' };
+  }
+  if (score >= 70) {
+    return { emoji: '🟡', label: 'Good', color: 'yellow' };
+  }
+  if (score >= 50) {
+    return { emoji: '🟠', label: 'Fair', color: 'orange' };
+  }
   return { emoji: '🔴', label: 'Critical', color: 'red' };
 }
 
-function generateSummary(health: any) {
-  const criticalIssues = health.issues.filter((i: any) => i.severity === 'critical');
-  const majorIssues = health.issues.filter((i: any) => i.severity === 'major');
+interface HealthIssue {
+  severity: string;
+  description?: string;
+}
+
+interface HealthData {
+  overall: number;
+  issues: HealthIssue[];
+  breakdown: Record<string, number>;
+}
+
+function generateSummary(health: HealthData) {
+  const criticalIssues = health.issues.filter((i: HealthIssue) => i.severity === 'critical');
+  const majorIssues = health.issues.filter((i: HealthIssue) => i.severity === 'major');
   
   return {
     overall: `Project health is ${getHealthStatus(health.overall).label.toLowerCase()} at ${health.overall}/100`,
@@ -46,7 +63,7 @@ function generateSummary(health: any) {
   };
 }
 
-function getTopRecommendation(health: any) {
+function getTopRecommendation(health: HealthData) {
   if (health.overall >= 90) {
     return 'Excellent work! Keep maintaining high standards.';
   }

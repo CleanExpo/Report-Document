@@ -3,7 +3,7 @@ import { featureFlags } from '@/config/flags';
 
 const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:5051';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   // Check if AI orchestrator feature is enabled
   if (!featureFlags.isEnabled('aiOrchestrator')) {
     return NextResponse.json(

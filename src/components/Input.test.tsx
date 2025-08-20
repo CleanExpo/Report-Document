@@ -66,7 +66,7 @@ describe('Input', () => {
     const input = screen.getByRole('textbox')
     const errorId = input.getAttribute('aria-describedby')
     expect(errorId).toBeTruthy()
-    const errorElement = document.getElementById(errorId!)
+    const errorElement = document.getElementById(errorId as string)
     expect(errorElement).toHaveTextContent('Invalid email')
   })
 

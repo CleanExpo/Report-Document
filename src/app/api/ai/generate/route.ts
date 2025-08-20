@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     } catch (fetchError) {
       // Service unavailable - return mock response
       clearTimeout(timeout);
-      console.log("AI service unavailable, returning mock response");
+      // AI service unavailable, returning mock response
       
       return NextResponse.json({
         success: true,

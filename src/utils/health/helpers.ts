@@ -48,13 +48,26 @@ export async function checkCodeComplexity(): Promise<{ high: number; medium: num
     const results = JSON.parse(output);
     let high = 0, medium = 0, low = 0;
     
-    results.forEach((file: any) => {
-      file.messages?.forEach((msg: any) => {
+    interface LintMessage {
+      ruleId?: string;
+      message: string;
+    }
+    
+    interface LintFile {
+      messages?: LintMessage[];
+    }
+    
+    results.forEach((file: LintFile) => {
+      file.messages?.forEach((msg: LintMessage) => {
         if (msg.ruleId === 'complexity') {
           const complexity = parseInt(msg.message.match(/\d+/)?.[0] || '0');
-          if (complexity > 20) high++;
-          else if (complexity > 10) medium++;
-          else low++;
+          if (complexity > 20) {
+            high++;
+          } else if (complexity > 10) {
+            medium++;
+          } else {
+            low++;
+          }
         }
       });
     });
