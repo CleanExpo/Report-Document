@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runHealthCheck, type HealthScore, type HealthIssue as HealthIssueType } from '@/utils/health/scoring';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function GET(_request: NextRequest) {
   try {
     // Run the health check
