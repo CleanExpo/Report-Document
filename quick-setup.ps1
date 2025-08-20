@@ -58,3 +58,4 @@ Write-Host "`n📋 BUILD PROMPT copied to clipboard!" -ForegroundColor Green
 
 # Open Claude
 claude .
+}

@@ -1,7 +1,26 @@
-# CLAUDE.md - Project Operating Rules
+# CLAUDE.md - Remediation Report System Operating Rules
 
 ## 🔒 SECURITY FIRST
 **CRITICAL**: Never expose secrets, passwords, API keys, or PII. All agents enforce strict security guardrails. See `docs/09_security/pii-safety.md` for mandatory guidelines.
+
+## Project Context
+You are building a sophisticated report writing system for a Water, Fire, and Mould Remediation business in Brisbane, Queensland. This system must produce factually accurate, citation-backed reports that go beyond standard remediation reporting.
+
+## Core Business Understanding
+
+### We Are
+- **Restoration Specialists**: We restore, not replace
+- **Investigators**: We find root causes, not just symptoms
+- **Loss Mitigators**: We prevent secondary damage
+- **Client Advocates**: We consider emotional and financial impacts
+- **Standards Experts**: Every recommendation is backed by citations
+
+### Key Standards to Reference
+- **IICRC S500**: Water Damage Restoration
+- **IICRC S520**: Mould Remediation
+- **IICRC S700**: Fire and Smoke Restoration
+- **AS/NZS 4849.1**: Indoor Air Quality
+- **Queensland Building Codes**
 
 ## Configuration
 This project uses `claude.config.json` for Claude Code settings with:
