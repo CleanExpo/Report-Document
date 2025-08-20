@@ -1,0 +1,77 @@
+{
+  "overall": 93,
+  "status": {
+    "emoji": "🟢",
+    "label": "Excellent"
+  },
+  "checks": {
+    "structure": {
+      "name": "Project Structure",
+      "score": 100,
+      "status": {
+        "emoji": "🟢",
+        "label": "Excellent"
+      },
+      "issues": []
+    },
+    "dependencies": {
+      "name": "Dependencies",
+      "score": 100,
+      "status": {
+        "emoji": "🟢",
+        "label": "Excellent"
+      },
+      "issues": []
+    },
+    "code": {
+      "name": "Code Quality",
+      "score": 85,
+      "status": {
+        "emoji": "🟡",
+        "label": "Good"
+      },
+      "issues": [
+        {
+          "severity": "minor",
+          "description": "Linting errors found",
+          "remediation": "Run: npm run lint:fix"
+        }
+      ]
+    },
+    "tests": {
+      "name": "Test Coverage",
+      "score": 85,
+      "status": {
+        "emoji": "🟡",
+        "label": "Good"
+      },
+      "issues": []
+    },
+    "security": {
+      "name": "Security",
+      "score": 100,
+      "status": {
+        "emoji": "🟢",
+        "label": "Excellent"
+      },
+      "issues": []
+    },
+    "performance": {
+      "name": "Performance",
+      "score": 90,
+      "status": {
+        "emoji": "🟢",
+        "label": "Excellent"
+      },
+      "issues": []
+    }
+  },
+  "timestamp": "2025-08-20T02:03:10.930Z",
+  "issues": [
+    {
+      "severity": "minor",
+      "description": "Linting errors found",
+      "remediation": "Run: npm run lint:fix"
+    }
+  ]
+}

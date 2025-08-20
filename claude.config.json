@@ -1,0 +1,107 @@
+{
+  "model": "claude-sonnet-4",
+  "permissions": {
+    "allow": [
+      "Read(**/*.md)",
+      "Read(src/**)",
+      "Bash(npm run build)",
+      "Bash(npm run test:*)"
+    ],
+    "ask": [
+      "Edit(**/*)",
+      "Write(**/*)",
+      "Bash(git *:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Bash(rm -rf:*)",
+      "Bash(curl:*)"
+    ]
+  },
+  "defaultMode": "plan",
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "workflow": {
+    "requirePlanMode": true,
+    "autoBackup": true,
+    "confirmDestructive": true,
+    "validateBeforeCommit": true
+  },
+  "security": {
+    "blockSensitiveFiles": [
+      ".env",
+      ".env.*",
+      "*.key",
+      "*.pem",
+      "*.cert",
+      "secrets/**"
+    ],
+    "requireApprovalForCommands": [
+      "rm -rf",
+      "format c:",
+      "dd if=",
+      "mkfs",
+      "fdisk"
+    ]
+  },
+  "development": {
+    "lintOnSave": true,
+    "formatOnSave": true,
+    "runTestsBeforeBuild": true,
+    "enforceTypeChecking": true
+  },
+  "hooks": {
+    "prePlan": "echo '📋 Entering plan mode...'",
+    "preEdit": "cp {{file}} {{file}}.bak",
+    "postEdit": "npm run lint -- {{file}}",
+    "preCommit": "npm run validate",
+    "postBuild": "npm run test:coverage"
+  },
+  "aliases": {
+    "validate": "npm run lint && npm run typecheck && npm run test",
+    "ship": "npm run validate && npm run build && npm run deploy",
+    "check": "npm run test:coverage && npm run security:scan"
+  },
+  "features": {
+    "enableAgents": true,
+    "enableSnippets": true,
+    "enableAutoComplete": true,
+    "enableInlineDocumentation": true,
+    "enableGitIntegration": true
+  },
+  "validation": {
+    "rules": [
+      {
+        "name": "no-secrets",
+        "pattern": "/(api[_-]?key|password|secret|token|private[_-]?key)/i",
+        "severity": "error",
+        "message": "Potential secret detected. Use environment variables instead."
+      },
+      {
+        "name": "no-console-log",
+        "pattern": "/console\\.log/",
+        "severity": "warning",
+        "message": "Remove console.log before committing."
+      },
+      {
+        "name": "no-todo-commit",
+        "pattern": "/TODO|FIXME|HACK/",
+        "severity": "info",
+        "message": "TODO/FIXME found. Consider creating an issue."
+      }
+    ]
+  },
+  "templates": {
+    "component": ".claude/templates/component.tsx",
+    "test": ".claude/templates/test.ts",
+    "api": ".claude/templates/api.ts"
+  },
+  "documentation": {
+    "autoGenerate": true,
+    "format": "markdown",
+    "outputDir": "docs/api"
+  }
+}

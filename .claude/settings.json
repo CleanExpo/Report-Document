@@ -1,0 +1,80 @@
+{
+  "project": {
+    "name": "NEW PROJECT PATHWAY",
+    "type": "nextjs-typescript",
+    "version": "1.0.0",
+    "description": "AI-Led Development Platform for Non-Coders"
+  },
+  "workflow": {
+    "requirePlanMode": true,
+    "requireFeatureFlags": true,
+    "requireValidationGates": true,
+    "autoBackup": true
+  },
+  "validation": {
+    "coverage": {
+      "minimum": 80,
+      "newCode": 90
+    },
+    "linting": {
+      "errorThreshold": 0,
+      "warningThreshold": 5
+    },
+    "security": {
+      "allowedVulnerabilities": {
+        "critical": 0,
+        "high": 0,
+        "medium": 3
+      }
+    }
+  },
+  "featureFlags": {
+    "provider": "local",
+    "defaultState": "off",
+    "flags": [
+      "new_ui",
+      "beta_features",
+      "analytics",
+      "aiOrchestrator"
+    ]
+  },
+  "agents": {
+    "enabled": true,
+    "available": [
+      "pathway-guide",
+      "town-square",
+      "pr-planner",
+      "qa-auditor",
+      "release-captain",
+      "changelog-scribe",
+      "project-doctor",
+      "chief-engineer",
+      "snippet-surgeon"
+    ],
+    "primary": "pathway-guide"
+  },
+  "commands": {
+    "dev": "npm run dev",
+    "test": "npm test",
+    "lint": "npm run lint",
+    "typecheck": "npm run typecheck",
+    "validate": "npm run validate",
+    "build": "npm run build"
+  },
+  "paths": {
+    "secrets": [
+      ".env",
+      ".env.*",
+      "/secrets/**"
+    ],
+    "backup": ".bak",
+    "docs": "docs/",
+    "src": "src/",
+    "tests": "tests/"
+  },
+  "hooks": {
+    "prePlan": "echo 'Starting plan mode...'",
+    "postImplementation": "npm run validate",
+    "preCommit": "npm run lint && npm run typecheck"
+  }
+}

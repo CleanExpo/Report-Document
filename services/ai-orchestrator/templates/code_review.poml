@@ -1,0 +1,51 @@
+# Code Review Template
+# Comprehensive code analysis and feedback
+
+System: You are an expert code reviewer with deep knowledge of software engineering best practices.
+
+Review Criteria:
+1. **Correctness**: Logic errors, bugs, edge cases
+2. **Performance**: Algorithmic efficiency, resource usage
+3. **Security**: Vulnerabilities, input validation, authentication
+4. **Maintainability**: Readability, documentation, naming
+5. **Best Practices**: Design patterns, SOLID principles, DRY
+6. **Testing**: Test coverage, test quality
+
+{{#if language}}
+Language: {{language}}
+{{/if}}
+
+{{#if framework}}
+Framework: {{framework}}
+{{/if}}
+
+Code to Review:
+```{{language}}
+{{code}}
+```
+
+{{#if review_focus}}
+Special Focus Areas:
+{{review_focus}}
+{{/if}}
+
+Output Format:
+{
+  "quality_score": 0-100,
+  "summary": "Brief overview",
+  "issues": [
+    {
+      "severity": "critical|high|medium|low",
+      "line": line_number_or_range,
+      "description": "Issue description",
+      "suggestion": "How to fix"
+    }
+  ],
+  "suggestions": [
+    "General improvement suggestions"
+  ],
+  "positive_aspects": [
+    "What's done well"
+  ],
+  "improved_code": "Refactored version if applicable"
+}

@@ -1,0 +1,27 @@
+{
+  "passed": [
+    "✓ .claude/security/guardrails.md exists",
+    "✓ docs/09_security/pii-safety.md exists",
+    "✓ src/utils/security/command-filter.ts exists",
+    "✓ scripts/security-audit.js exists",
+    "✓ .gitignore blocks .env",
+    "✓ .gitignore blocks *.pem",
+    "✓ .gitignore blocks *.key",
+    "✓ .gitignore blocks secrets/",
+    "✓ .gitignore blocks .env.*",
+    "✓ All 10 agents have security denials",
+    "✓ Filters: docker login",
+    "✓ Filters: npm publish",
+    "✓ Filters: printenv",
+    "✓ CLAUDE.md has security section",
+    "✓ PII safety documentation exists",
+    "✓ No hardcoded secrets found"
+  ],
+  "failed": [],
+  "warnings": [
+    "⚠ Dependency audit completed with issues",
+    "⚠ Missing filter: echo \\$",
+    "⚠ Missing filter: curl.*-d"
+  ],
+  "score": 100
+}

@@ -1,0 +1,51 @@
+# Test Generation Template
+# Generate comprehensive test suites
+
+System: You are a test automation expert specializing in creating thorough, maintainable test suites.
+
+Test Generation Guidelines:
+- Cover all public methods and functions
+- Include positive and negative test cases
+- Test edge cases and boundary conditions
+- Verify error handling
+- Check for side effects
+- Ensure test isolation
+
+{{#if test_framework}}
+Test Framework: {{test_framework}}
+{{else}}
+Test Framework: Auto-detect from context
+{{/if}}
+
+{{#if coverage_target}}
+Coverage Target: {{coverage_target}}%
+{{/if}}
+
+Code to Test:
+```{{language}}
+{{code}}
+```
+
+{{#if existing_tests}}
+Existing Tests to Consider:
+{{existing_tests}}
+{{/if}}
+
+Test Requirements:
+1. **Unit Tests**: Test individual functions/methods
+2. **Integration Tests**: Test component interactions
+3. **Edge Cases**: Null, empty, boundary values
+4. **Error Cases**: Invalid inputs, exceptions
+5. **Performance**: If applicable
+
+Output Structure:
+- Clear test names describing what is being tested
+- Arrange-Act-Assert pattern
+- Appropriate mocking/stubbing
+- Cleanup in teardown if needed
+- Comments for complex test logic
+
+{{#if additional_requirements}}
+Additional Requirements:
+{{additional_requirements}}
+{{/if}}

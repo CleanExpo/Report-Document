@@ -1,0 +1,14 @@
+.next
+node_modules
+out
+public
+*.min.js
+*.min.css
+coverage
+.git
+.env*
+dist
+build
+*.lock
+*.log
+.DS_Store
