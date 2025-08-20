@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { runHealthCheck } from '@/utils/health/scoring';
+import { runHealthCheck, type HealthScore, type HealthIssue as HealthIssueType } from '@/utils/health/scoring';
 
 export async function GET(_request: NextRequest) {
   try {
@@ -39,20 +39,9 @@ function getHealthStatus(score: number) {
   return { emoji: '🔴', label: 'Critical', color: 'red' };
 }
 
-interface HealthIssue {
-  severity: string;
-  description?: string;
-}
-
-interface HealthData {
-  overall: number;
-  issues: HealthIssue[];
-  breakdown: Record<string, number>;
-}
-
-function generateSummary(health: HealthData) {
-  const criticalIssues = health.issues.filter((i: HealthIssue) => i.severity === 'critical');
-  const majorIssues = health.issues.filter((i: HealthIssue) => i.severity === 'major');
+function generateSummary(health: HealthScore) {
+  const criticalIssues = health.issues.filter((i: HealthIssueType) => i.severity === 'critical');
+  const majorIssues = health.issues.filter((i: HealthIssueType) => i.severity === 'major');
   
   return {
     overall: `Project health is ${getHealthStatus(health.overall).label.toLowerCase()} at ${health.overall}/100`,
@@ -63,7 +52,7 @@ function generateSummary(health: HealthData) {
   };
 }
 
-function getTopRecommendation(health: HealthData) {
+function getTopRecommendation(health: HealthScore) {
   if (health.overall >= 90) {
     return 'Excellent work! Keep maintaining high standards.';
   }
