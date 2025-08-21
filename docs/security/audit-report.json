@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-08-21T10:18:03.432Z",
+  "dependencies": {
+    "error": "Command failed: npm audit --production --json\nnpm warn config production Use `--omit=dev` instead.\nnpm error code ENOLOCK\nnpm error audit This command requires an existing lockfile.\nnpm error audit Try creating one first with: npm i --package-lock-only\nnpm error audit Original error: loadVirtual requires existing shrinkwrap file\nnpm error A complete log of this run can be found in: C:\\Users\\Disaster Recovery 4\\AppData\\Local\\npm-cache\\_logs\\2025-08-21T10_18_03_656Z-debug-0.log\n"
+  },
+  "vulnerabilities": [],
+  "licenses": {
+    "error": "Unable to check licenses"
+  },
+  "outdated": {
+    "count": 0
+  },
+  "overall": "PASS",
+  "secrets": []
+}

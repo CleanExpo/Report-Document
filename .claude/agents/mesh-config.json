@@ -1,0 +1,351 @@
+{
+  "version": "1.0.0",
+  "name": "Remediation Report System Agent Mesh",
+  "description": "Collaborative AI agent network for professional remediation reporting",
+  
+  "agents": {
+    "pathway-guide": {
+      "id": "01-pathway-guide",
+      "name": "Pathway Guide",
+      "emoji": "🧭",
+      "role": "Strategic Navigator & Requirements Architect",
+      "capabilities": [
+        "requirements_analysis",
+        "architecture_design",
+        "technology_selection",
+        "project_planning"
+      ],
+      "triggers": [
+        "project_init",
+        "major_feature",
+        "architecture_change"
+      ],
+      "outputs": [
+        "requirements_doc",
+        "architecture_diagram",
+        "technology_decisions"
+      ]
+    },
+    
+    "pr-planner": {
+      "id": "02-pr-planner",
+      "name": "PR Planner",
+      "emoji": "📋",
+      "role": "Pull Request Strategist & Code Review Orchestrator",
+      "capabilities": [
+        "pr_strategy",
+        "review_assignment",
+        "merge_decisions",
+        "conflict_resolution"
+      ],
+      "triggers": [
+        "code_complete",
+        "pr_created",
+        "review_requested"
+      ],
+      "outputs": [
+        "pr_template",
+        "review_checklist",
+        "merge_strategy"
+      ]
+    },
+    
+    "qa-auditor": {
+      "id": "03-qa-auditor",
+      "name": "QA Auditor",
+      "emoji": "🔍",
+      "role": "Quality Assurance Specialist & Testing Strategist",
+      "capabilities": [
+        "test_planning",
+        "test_automation",
+        "compliance_verification",
+        "quality_metrics"
+      ],
+      "triggers": [
+        "pr_created",
+        "build_complete",
+        "deployment_ready"
+      ],
+      "outputs": [
+        "test_report",
+        "coverage_report",
+        "compliance_certificate"
+      ]
+    },
+    
+    "release-captain": {
+      "id": "04-release-captain",
+      "name": "Release Captain",
+      "emoji": "🚀",
+      "role": "Deployment Orchestrator & Release Manager",
+      "capabilities": [
+        "release_planning",
+        "deployment_orchestration",
+        "rollback_management",
+        "feature_flags"
+      ],
+      "triggers": [
+        "tests_pass",
+        "approval_received",
+        "schedule_reached"
+      ],
+      "outputs": [
+        "release_notes",
+        "deployment_status",
+        "rollback_plan"
+      ]
+    },
+    
+    "changelog-scribe": {
+      "id": "05-changelog-scribe",
+      "name": "Changelog Scribe",
+      "emoji": "📝",
+      "role": "Documentation Specialist & Change Historian",
+      "capabilities": [
+        "changelog_generation",
+        "release_notes",
+        "migration_guides",
+        "documentation_updates"
+      ],
+      "triggers": [
+        "release_created",
+        "pr_merged",
+        "milestone_reached"
+      ],
+      "outputs": [
+        "changelog",
+        "release_announcement",
+        "migration_guide"
+      ]
+    },
+    
+    "security-sentinel": {
+      "id": "06-security-sentinel",
+      "name": "Security Sentinel",
+      "emoji": "🔒",
+      "role": "Security Guardian & Compliance Enforcer",
+      "capabilities": [
+        "security_scanning",
+        "vulnerability_management",
+        "compliance_enforcement",
+        "incident_response"
+      ],
+      "triggers": [
+        "code_change",
+        "dependency_update",
+        "deployment",
+        "security_alert"
+      ],
+      "outputs": [
+        "security_report",
+        "vulnerability_assessment",
+        "compliance_status"
+      ]
+    },
+    
+    "project-doctor": {
+      "id": "07-project-doctor",
+      "name": "Project Doctor",
+      "emoji": "🏥",
+      "role": "Health Monitor & Performance Optimizer",
+      "capabilities": [
+        "health_monitoring",
+        "performance_profiling",
+        "tech_debt_tracking",
+        "optimization"
+      ],
+      "triggers": [
+        "performance_issue",
+        "error_spike",
+        "scheduled_check",
+        "deployment"
+      ],
+      "outputs": [
+        "health_report",
+        "performance_metrics",
+        "optimization_recommendations"
+      ]
+    },
+    
+    "chief-engineer": {
+      "id": "08-chief-engineer",
+      "name": "Chief Engineer",
+      "emoji": "🎯",
+      "role": "Technical Leadership & Architecture Oversight",
+      "capabilities": [
+        "architecture_governance",
+        "technical_strategy",
+        "code_review_oversight",
+        "team_coordination"
+      ],
+      "triggers": [
+        "major_decision",
+        "escalation",
+        "architecture_review",
+        "sprint_planning"
+      ],
+      "outputs": [
+        "architecture_decisions",
+        "technical_roadmap",
+        "risk_assessment"
+      ]
+    }
+  },
+  
+  "communication": {
+    "protocols": [
+      {
+        "from": "pathway-guide",
+        "to": ["pr-planner", "qa-auditor", "security-sentinel", "chief-engineer"],
+        "events": ["requirements_defined", "architecture_updated"]
+      },
+      {
+        "from": "pr-planner",
+        "to": ["qa-auditor", "security-sentinel", "changelog-scribe"],
+        "events": ["pr_ready", "review_complete"]
+      },
+      {
+        "from": "qa-auditor",
+        "to": ["release-captain", "project-doctor", "pr-planner"],
+        "events": ["tests_complete", "quality_gate_passed"]
+      },
+      {
+        "from": "release-captain",
+        "to": ["changelog-scribe", "project-doctor", "security-sentinel"],
+        "events": ["deployment_started", "deployment_complete"]
+      },
+      {
+        "from": "security-sentinel",
+        "to": ["release-captain", "chief-engineer", "project-doctor"],
+        "events": ["vulnerability_found", "compliance_violation"]
+      },
+      {
+        "from": "project-doctor",
+        "to": ["chief-engineer", "release-captain", "qa-auditor"],
+        "events": ["performance_degradation", "health_alert"]
+      },
+      {
+        "from": "chief-engineer",
+        "to": ["all"],
+        "events": ["strategy_update", "architecture_decision"]
+      }
+    ],
+    
+    "escalation": {
+      "levels": [
+        {
+          "level": 1,
+          "agents": ["pr-planner", "qa-auditor"],
+          "timeout": 300
+        },
+        {
+          "level": 2,
+          "agents": ["release-captain", "security-sentinel"],
+          "timeout": 600
+        },
+        {
+          "level": 3,
+          "agents": ["project-doctor", "chief-engineer"],
+          "timeout": 900
+        }
+      ]
+    }
+  },
+  
+  "workflows": {
+    "feature-development": {
+      "steps": [
+        { "agent": "pathway-guide", "action": "analyze_requirements" },
+        { "agent": "chief-engineer", "action": "review_architecture" },
+        { "agent": "pr-planner", "action": "plan_implementation" },
+        { "agent": "security-sentinel", "action": "security_review" },
+        { "agent": "qa-auditor", "action": "create_test_plan" }
+      ]
+    },
+    
+    "code-review": {
+      "steps": [
+        { "agent": "pr-planner", "action": "assign_reviewers" },
+        { "agent": "security-sentinel", "action": "security_scan" },
+        { "agent": "qa-auditor", "action": "run_tests" },
+        { "agent": "project-doctor", "action": "performance_check" },
+        { "agent": "chief-engineer", "action": "architecture_review" }
+      ]
+    },
+    
+    "deployment": {
+      "steps": [
+        { "agent": "qa-auditor", "action": "final_tests" },
+        { "agent": "security-sentinel", "action": "security_gates" },
+        { "agent": "release-captain", "action": "deploy" },
+        { "agent": "project-doctor", "action": "monitor_health" },
+        { "agent": "changelog-scribe", "action": "publish_notes" }
+      ]
+    },
+    
+    "incident-response": {
+      "steps": [
+        { "agent": "project-doctor", "action": "diagnose_issue" },
+        { "agent": "security-sentinel", "action": "assess_security" },
+        { "agent": "release-captain", "action": "rollback_if_needed" },
+        { "agent": "chief-engineer", "action": "coordinate_response" },
+        { "agent": "changelog-scribe", "action": "document_incident" }
+      ]
+    }
+  },
+  
+  "performance": {
+    "parallelization": true,
+    "max_concurrent_agents": 4,
+    "timeout_default": 300,
+    "retry_policy": {
+      "max_retries": 3,
+      "backoff": "exponential"
+    }
+  },
+  
+  "monitoring": {
+    "metrics": [
+      "agent_response_time",
+      "workflow_completion_time",
+      "error_rate",
+      "success_rate",
+      "escalation_count"
+    ],
+    "logging": {
+      "level": "info",
+      "destinations": ["console", "file", "monitoring_service"]
+    },
+    "alerts": {
+      "agent_failure": {
+        "threshold": 3,
+        "window": 300,
+        "action": "escalate"
+      },
+      "workflow_timeout": {
+        "threshold": 1800,
+        "action": "notify"
+      }
+    }
+  },
+  
+  "remediation_specific": {
+    "standards": {
+      "iicrc": ["S500", "S520", "S700"],
+      "australian": ["AS/NZS 4849.1", "AS 3666"],
+      "building_codes": ["NCC", "BCA"]
+    },
+    "compliance_checks": [
+      "water_damage_categories",
+      "mould_containment_levels",
+      "fire_restoration_procedures",
+      "hvac_contamination_protocols"
+    ],
+    "calculations": [
+      "psychrometric_formulas",
+      "drying_equipment_requirements",
+      "restoration_viability_scoring",
+      "contamination_spread_modeling"
+    ]
+  }
+}

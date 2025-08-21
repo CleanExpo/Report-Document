@@ -9,7 +9,7 @@
     "✓ .gitignore blocks *.key",
     "✓ .gitignore blocks secrets/",
     "✓ .gitignore blocks .env.*",
-    "✓ All 10 agents have security denials",
+    "✓ All 11 agents have security denials",
     "✓ Filters: docker login",
     "✓ Filters: npm publish",
     "✓ Filters: printenv",

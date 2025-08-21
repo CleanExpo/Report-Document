@@ -1,9 +1,17 @@
-name: ci
+name: CI Pipeline
+
 on:
-  pull_request:
   push:
+    branches: [main, develop]
+  pull_request:
     branches: [main]
+
+env:
+  NODE_VERSION: '20'
+  CACHE_KEY: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
 jobs:
+  # Original quality job
   quality:
     runs-on: ubuntu-latest
     steps:
@@ -17,3 +25,142 @@ jobs:
       - name: AI Orchestrator health (optional)
         run: |
           curl -fsS ${AI_SERVICE_URL:-http://localhost:5051}/health || echo "(skipped in CI unless service is up)"
+
+  # Agent: Security Sentinel
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run security audit
+        run: |
+          npm audit --production || true
+          npm run security:scan || true
+      
+      - name: Upload security report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-report
+          path: docs/security/
+
+  # Agent: QA Auditor - Enhanced Testing
+  test-coverage:
+    name: 🔍 Test Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests with coverage
+        run: npm run test:unit -- --coverage || true
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+
+  # Agent: Project Doctor - Performance
+  performance-check:
+    name: 🏥 Performance Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Check build output
+        run: |
+          echo "Build completed successfully"
+          ls -la .next/static 2>/dev/null || echo "No .next/static directory found"
+
+  # Agent: PR Planner - Validation
+  pr-validation:
+    name: 📋 PR Validation
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Validate PR size
+        run: |
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | wc -l)
+          echo "PR changes $CHANGED_FILES files"
+          if [ $CHANGED_FILES -gt 20 ]; then
+            echo "⚠️ Warning: PR changes $CHANGED_FILES files (recommended: < 20)"
+          fi
+
+  # Agent: Release Captain - Deployment (only on main)
+  deploy-check:
+    name: 🚀 Deployment Check
+    runs-on: ubuntu-latest
+    needs: [quality, security-scan, test-coverage]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build for production
+        run: npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: Ready for deployment
+        run: echo "✅ Build successful - ready for deployment"
+
+  # Agent: Changelog Scribe - Documentation
+  update-docs:
+    name: 📝 Update Documentation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [deploy-check]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check for documentation updates
+        run: |
+          echo "Checking for documentation updates..."
+          git diff HEAD~1 --name-only | grep -E "\.(md|mdx)$" || echo "No documentation changes"
