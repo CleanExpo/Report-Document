@@ -174,7 +174,7 @@ export function RestorationCalculator({
   // Bulk operations
   const applyRecommendations = useCallback(() => {
     // This would typically update the items with recommended actions
-    console.log('Applying recommendations for', totals.restoreRecommended, 'restoration items');
+    // console.log('Applying recommendations for', totals.restoreRecommended, 'restoration items');
   }, [totals.restoreRecommended]);
 
   return (
@@ -258,7 +258,7 @@ export function RestorationCalculator({
             <select
               className="border border-gray-300 rounded-md px-3 py-2"
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) => setSortBy(e.target.value as 'name' | 'value' | 'viability' | 'savings')}
             >
               <option value="viability">Viability Score</option>
               <option value="name">Name</option>
@@ -524,7 +524,7 @@ function ItemModal({
     try {
       await onSave(formData);
     } catch (error) {
-      console.error('Error saving item:', error);
+      // console.error('Error saving item:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -567,7 +567,7 @@ function ItemModal({
               <select
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
                 value={formData.category || 'contents'}
-                onChange={(e) => updateFormData({ category: e.target.value as any })}
+                onChange={(e) => updateFormData({ category: e.target.value as RestorationItem['category'] })}
               >
                 <option value="structural">Structural</option>
                 <option value="flooring">Flooring</option>
@@ -605,7 +605,7 @@ function ItemModal({
               <select
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
                 value={formData.sentimentalValue || 'none'}
-                onChange={(e) => updateFormData({ sentimentalValue: e.target.value as any })}
+                onChange={(e) => updateFormData({ sentimentalValue: e.target.value as RestorationItem['sentimentalValue'] })}
               >
                 <option value="none">None</option>
                 <option value="low">Low</option>
@@ -674,7 +674,7 @@ function ItemModal({
               <select
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
                 value={formData.damageExtent || 'minor'}
-                onChange={(e) => updateFormData({ damageExtent: e.target.value as any })}
+                onChange={(e) => updateFormData({ damageExtent: e.target.value as RestorationItem['damageExtent'] })}
               >
                 <option value="minor">Minor</option>
                 <option value="moderate">Moderate</option>
@@ -758,7 +758,7 @@ function ItemModal({
                 onChange={(e) => updateFormData({ 
                   riskFactors: { 
                     ...formData.riskFactors, 
-                    furtherDamage: e.target.value as any 
+                    furtherDamage: e.target.value as RestorationItem['riskFactors']['furtherDamage']
                   }
                 })}
               >
@@ -779,7 +779,7 @@ function ItemModal({
                 onChange={(e) => updateFormData({ 
                   riskFactors: { 
                     ...formData.riskFactors, 
-                    healthConcerns: e.target.value as any 
+                    healthConcerns: e.target.value as RestorationItem['riskFactors']['healthConcerns']
                   }
                 })}
               >
@@ -800,7 +800,7 @@ function ItemModal({
                 onChange={(e) => updateFormData({ 
                   riskFactors: { 
                     ...formData.riskFactors, 
-                    structuralImpact: e.target.value as any 
+                    structuralImpact: e.target.value as RestorationItem['riskFactors']['structuralImpact']
                   }
                 })}
               >
@@ -834,8 +834,20 @@ function AnalysisModal({
   onClose
 }: {
   items: RestorationItem[];
-  totals: any;
-  insuranceLimits?: any;
+  totals: {
+    totalItems: number;
+    restoreRecommended: number;
+    replaceRecommended: number;
+    totalRestorationCost: number;
+    totalReplacementCost: number;
+    potentialSavings: number;
+    restorationRatio: number;
+  };
+  insuranceLimits?: {
+    building?: number;
+    contents?: number;
+    additionalExpenses?: number;
+  };
   onClose: () => void;
 }) {
   const categoryBreakdown = useMemo(() => {

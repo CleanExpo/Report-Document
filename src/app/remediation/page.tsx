@@ -11,13 +11,11 @@ import {
   AlertCircle,
   TrendingUp,
   DollarSign,
-  Users,
-  Building
 } from 'lucide-react'
-import ClaimIntakeForm from '@/components/claims/ClaimIntakeForm'
-import DamageAssessmentGrid from '@/components/damage/DamageAssessmentGrid'
-import HVACAnalyzer from '@/components/hvac/HVACAnalyzer'
-import RestorationCalculator from '@/components/restoration/RestorationCalculator'
+import { ClaimIntakeForm } from '@/components/claims/ClaimIntakeForm'
+import { DamageAssessmentGrid } from '@/components/damage/DamageAssessmentGrid'
+import { HVACAnalyzer } from '@/components/hvac/HVACAnalyzer'
+import { RestorationCalculator } from '@/components/restoration/RestorationCalculator'
 import EvidenceUploader from '@/components/remediation/EvidenceUploader'
 import ReportBuilder from '@/components/remediation/ReportBuilder'
 import { Claim } from '@/types/database'
@@ -353,8 +351,8 @@ export default function RemediationDashboard() {
               <h2 className="text-xl font-semibold mb-6">Evidence Upload</h2>
               <EvidenceUploader 
                 claimId={selectedClaim.id}
-                onEvidenceAdded={(evidence) => {
-                  console.log('Evidence added:', evidence)
+                onEvidenceAdded={(_evidence) => {
+                  // Evidence added handler
                 }}
               />
             </div>
@@ -365,11 +363,11 @@ export default function RemediationDashboard() {
           <div className="bg-white rounded-lg shadow">
             <ReportBuilder 
               claim={selectedClaim}
-              onSave={(report) => {
-                console.log('Report saved:', report)
+              onSave={(_report) => {
+                // Report saved handler
               }}
-              onExport={(format) => {
-                console.log('Export report as:', format)
+              onExport={(_format) => {
+                // Export report handler
               }}
             />
           </div>

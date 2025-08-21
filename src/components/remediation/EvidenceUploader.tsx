@@ -123,7 +123,7 @@ export default function EvidenceUploader({ claimId, onEvidenceAdded }: EvidenceU
       })
       setEvidence([])
     } catch (error) {
-      console.error('Upload failed:', error)
+      // console.error('Upload failed:', error)
     } finally {
       setUploading(false)
     }

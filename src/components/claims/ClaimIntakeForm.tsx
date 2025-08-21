@@ -85,32 +85,54 @@ export function ClaimIntakeForm({
     
     switch (step) {
       case 'property':
-        if (!data.property?.address?.street) errors.street = ['Street address is required'];
-        if (!data.property?.address?.suburb) errors.suburb = ['Suburb is required'];
-        if (!data.property?.address?.postcode) errors.postcode = ['Postcode is required'];
+        if (!data.property?.address?.street) {
+          errors.street = ['Street address is required'];
+        }
+        if (!data.property?.address?.suburb) {
+          errors.suburb = ['Suburb is required'];
+        }
+        if (!data.property?.address?.postcode) {
+          errors.postcode = ['Postcode is required'];
+        }
         if (data.property?.address?.postcode && !/^\d{4}$/.test(data.property.address.postcode)) {
           errors.postcode = ['Postcode must be 4 digits'];
         }
-        if (!data.property?.occupancyType) errors.occupancyType = ['Occupancy type is required'];
+        if (!data.property?.occupancyType) {
+          errors.occupancyType = ['Occupancy type is required'];
+        }
         break;
         
       case 'insurance':
-        if (!data.insurance?.insurerName) errors.insurerName = ['Insurer name is required'];
-        if (!data.insurance?.policyNumber) errors.policyNumber = ['Policy number is required'];
+        if (!data.insurance?.insurerName) {
+          errors.insurerName = ['Insurer name is required'];
+        }
+        if (!data.insurance?.policyNumber) {
+          errors.policyNumber = ['Policy number is required'];
+        }
         break;
         
       case 'client':
-        if (!data.client?.primaryContact?.name) errors.primaryContactName = ['Primary contact name is required'];
-        if (!data.client?.primaryContact?.email) errors.primaryContactEmail = ['Primary contact email is required'];
+        if (!data.client?.primaryContact?.name) {
+          errors.primaryContactName = ['Primary contact name is required'];
+        }
+        if (!data.client?.primaryContact?.email) {
+          errors.primaryContactEmail = ['Primary contact email is required'];
+        }
         if (data.client?.primaryContact?.email && !/\S+@\S+\.\S+/.test(data.client.primaryContact.email)) {
           errors.primaryContactEmail = ['Valid email is required'];
         }
-        if (!data.client?.primaryContact?.phone) errors.primaryContactPhone = ['Primary contact phone is required'];
+        if (!data.client?.primaryContact?.phone) {
+          errors.primaryContactPhone = ['Primary contact phone is required'];
+        }
         break;
         
       case 'damage':
-        if (!data.claimNumber) errors.claimNumber = ['Claim number is required'];
-        if (!data.causeOfLoss) errors.causeOfLoss = ['Cause of loss is required'];
+        if (!data.claimNumber) {
+          errors.claimNumber = ['Claim number is required'];
+        }
+        if (!data.causeOfLoss) {
+          errors.causeOfLoss = ['Cause of loss is required'];
+        }
         if (!data.damageType || data.damageType.length === 0) {
           errors.damageType = ['At least one damage type is required'];
         }
@@ -213,7 +235,7 @@ export function ClaimIntakeForm({
     try {
       await onSubmit(result.data);
     } catch (error) {
-      console.error('Error submitting claim:', error);
+      // console.error('Error submitting claim:', error);
       // Handle submission error
     } finally {
       setFormState(prev => ({ ...prev, isSubmitting: false }));
@@ -438,7 +460,7 @@ function PropertyInformationStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.property?.propertyType || 'residential'}
-              onChange={(e) => updateProperty({ propertyType: e.target.value as any })}
+              onChange={(e) => updateProperty({ propertyType: e.target.value as ClaimFormData['property']['propertyType'] })}
             >
               <option value="residential">Residential</option>
               <option value="commercial">Commercial</option>
@@ -454,7 +476,7 @@ function PropertyInformationStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.property?.constructionType || 'brick'}
-              onChange={(e) => updateProperty({ constructionType: e.target.value as any })}
+              onChange={(e) => updateProperty({ constructionType: e.target.value as ClaimFormData['property']['constructionType'] })}
             >
               <option value="brick">Brick</option>
               <option value="timber">Timber</option>
@@ -562,7 +584,7 @@ function InsuranceDetailsStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.insurance?.coverageType || 'comprehensive'}
-              onChange={(e) => updateInsurance({ coverageType: e.target.value as any })}
+              onChange={(e) => updateInsurance({ coverageType: e.target.value as ClaimFormData['insurance']['coverageType'] })}
             >
               <option value="comprehensive">Comprehensive</option>
               <option value="basic">Basic</option>
@@ -714,7 +736,7 @@ function ClientInformationStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.client?.primaryContact?.relationship || 'owner'}
-              onChange={(e) => updatePrimaryContact({ relationship: e.target.value as any })}
+              onChange={(e) => updatePrimaryContact({ relationship: e.target.value as ClaimFormData['client']['primaryContact']['relationship'] })}
             >
               <option value="owner">Owner</option>
               <option value="tenant">Tenant</option>
@@ -731,7 +753,7 @@ function ClientInformationStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.client?.primaryContact?.preferredContact || 'email'}
-              onChange={(e) => updatePrimaryContact({ preferredContact: e.target.value as any })}
+              onChange={(e) => updatePrimaryContact({ preferredContact: e.target.value as ClaimFormData['client']['primaryContact']['preferredContact'] })}
             >
               <option value="email">Email</option>
               <option value="phone">Phone</option>
@@ -771,7 +793,7 @@ function ClientInformationStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.client?.secondaryContact?.relationship || 'owner'}
-              onChange={(e) => updateSecondaryContact({ relationship: e.target.value as any })}
+              onChange={(e) => updateSecondaryContact({ relationship: e.target.value as ClaimFormData['client']['secondaryContact']['relationship'] })}
             >
               <option value="owner">Owner</option>
               <option value="tenant">Tenant</option>
@@ -915,7 +937,7 @@ function DamageAssessmentStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.priority || 'medium'}
-              onChange={(e) => onChange({ priority: e.target.value as any })}
+              onChange={(e) => onChange({ priority: e.target.value as ClaimFormData['priority'] })}
             >
               <option value="low">Low</option>
               <option value="medium">Medium</option>
@@ -931,7 +953,7 @@ function DamageAssessmentStep({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={data.status || 'intake'}
-              onChange={(e) => onChange({ status: e.target.value as any })}
+              onChange={(e) => onChange({ status: e.target.value as ClaimFormData['status'] })}
             >
               <option value="intake">Intake</option>
               <option value="assessment">Assessment</option>

@@ -32,7 +32,7 @@ interface ReportSection {
 
 interface ReportBuilderProps {
   claim: Claim
-  onSave: (report: any) => void
+  onSave: (report: Record<string, unknown>) => void
   onExport: (format: 'pdf' | 'docx') => void
 }
 

@@ -36,7 +36,7 @@ export function DamageAssessmentGrid({
   const [showDamageModal, setShowDamageModal] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'floor_plan'>('grid');
   const [isCreatingRoom, setIsCreatingRoom] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const _canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Get damages for a specific room
   const getRoomDamages = useCallback((roomId: string) => {
@@ -185,7 +185,7 @@ export function DamageAssessmentGrid({
         />
       ) : (
         <FloorPlanView
-          canvasRef={canvasRef}
+          canvasRef={_canvasRef}
           rooms={rooms}
           damages={damages}
           getRoomDamages={getRoomDamages}
@@ -199,7 +199,7 @@ export function DamageAssessmentGrid({
         <RoomModal
           room={selectedRoom}
           isCreating={isCreatingRoom}
-          onSave={isCreatingRoom ? onRoomCreate : (data) => selectedRoom && onRoomUpdate(selectedRoom.id, data)}
+          onSave={isCreatingRoom ? onRoomCreate : (data: Partial<Room>) => selectedRoom && onRoomUpdate(selectedRoom.id, data)}
           onClose={() => setShowRoomModal(false)}
         />
       )}
@@ -421,7 +421,7 @@ function FloorPlanView({
   onEditRoom: (room: Room) => void;
   onCreateDamage: (roomId: string) => void;
 }) {
-  const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
+  const [_canvasSize, _setCanvasSize] = useState({ width: 800, height: 600 });
   const [roomLayouts, setRoomLayouts] = useState<{ [roomId: string]: { x: number; y: number; width: number; height: number } }>({});
 
   useEffect(() => {
@@ -616,7 +616,7 @@ function RoomModal({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={formData.roomType || 'living'}
-              onChange={(e) => setFormData(prev => ({ ...prev, roomType: e.target.value as any }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, roomType: e.target.value as RoomFormData['roomType'] }))}
             >
               <option value="living">Living Room</option>
               <option value="bedroom">Bedroom</option>
@@ -638,7 +638,7 @@ function RoomModal({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={formData.level || 'ground'}
-              onChange={(e) => setFormData(prev => ({ ...prev, level: e.target.value as any }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, level: e.target.value as RoomFormData['level'] }))}
             >
               <option value="basement">Basement</option>
               <option value="ground">Ground Level</option>
@@ -758,7 +758,7 @@ function DamageModal({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={formData.type || 'water'}
-              onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as any }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value as DamageFormData['type'] }))}
             >
               <option value="water">Water</option>
               <option value="fire">Fire</option>
@@ -776,7 +776,7 @@ function DamageModal({
             <select 
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               value={formData.severity || 'minor'}
-              onChange={(e) => setFormData(prev => ({ ...prev, severity: e.target.value as any }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, severity: e.target.value as DamageFormData['severity'] }))}
             >
               <option value="minor">Minor</option>
               <option value="moderate">Moderate</option>
@@ -812,7 +812,7 @@ function DamageModal({
               value={formData.location?.element || 'wall'}
               onChange={(e) => setFormData(prev => ({
                 ...prev,
-                location: { ...prev.location, element: e.target.value as any, position: prev.location?.position || '' }
+                location: { ...prev.location, element: e.target.value as DamageFormData['location']['element'], position: prev.location?.position || '' }
               }))}
             >
               <option value="wall">Wall</option>
