@@ -18,7 +18,7 @@ import {
   Flame,
   Wind
 } from 'lucide-react'
-import { Claim, Damage, Recommendation, Material } from '@/lib/remediation/types'
+import { Claim, Damage, Recommendation, Material } from '@/types/database'
 import { applyCitations } from '@/lib/remediation/standards'
 
 interface ReportSection {

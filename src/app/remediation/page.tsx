@@ -14,13 +14,13 @@ import {
   Users,
   Building
 } from 'lucide-react'
-import ClaimIntakeForm from '@/components/remediation/ClaimIntakeForm'
-import DamageAssessmentGrid from '@/components/remediation/DamageAssessmentGrid'
-import HVACAnalyzer from '@/components/remediation/HVACAnalyzer'
-import RestorationCalculator from '@/components/remediation/RestorationCalculator'
+import ClaimIntakeForm from '@/components/claims/ClaimIntakeForm'
+import DamageAssessmentGrid from '@/components/damage/DamageAssessmentGrid'
+import HVACAnalyzer from '@/components/hvac/HVACAnalyzer'
+import RestorationCalculator from '@/components/restoration/RestorationCalculator'
 import EvidenceUploader from '@/components/remediation/EvidenceUploader'
 import ReportBuilder from '@/components/remediation/ReportBuilder'
-import { Claim } from '@/lib/remediation/types'
+import { Claim } from '@/types/database'
 
 type ViewMode = 'dashboard' | 'new-claim' | 'assessment' | 'report' | 'hvac' | 'restoration' | 'evidence'
 
